@@ -5,8 +5,8 @@ pipeline {
            steps {
               
                 sh 'docker build -t nginxtest:latest .' 
-                sh 'docker tag nginxtest nikhilnidhi/nginxtest:latest'
-                sh 'docker tag nginxtest nikhilnidhi/nginxtest:$BUILD_NUMBER'
+                sh 'docker tag nginxtest rameshtmg/nginxtest:latest'
+                sh 'docker tag nginxtest rameshtmg/nginxtest:$BUILD_NUMBER'
                
           }
         }
@@ -15,8 +15,8 @@ pipeline {
           
             steps {
         withDockerRegistry([ credentialsId: "dockerHub", url: "" ]) {
-          sh  'docker push nikhilnidhi/nginxtest:latest'
-          sh  'docker push nikhilnidhi/nginxtest:$BUILD_NUMBER' 
+          sh  'docker push rameshtmg/nginxtest:latest'
+          sh  'docker push rameshtmg/nginxtest:$BUILD_NUMBER' 
         }
                   
           }
@@ -25,14 +25,14 @@ pipeline {
       stage('Run Docker container on Jenkins Agent') {
              
             steps {
-                sh "docker run -d -p 4030:80 nikhilnidhi/nginxtest"
+                sh "docker run -d -p 4030:80 rameshtmg/nginxtest"
  
             }
         }
  stage('Run Docker container on remote hosts') {
              
             steps {
-                sh "docker -H ssh://jenkins@jenkins.ramesht.com.np run -d -p 4001:80 nikhilnidhi/nginxtest"
+                sh "docker -H ssh://jenkins@jenkins.ramesht.com.np run -d -p 4001:80 rameshtmg/nginxtest"
  
             }
         }
